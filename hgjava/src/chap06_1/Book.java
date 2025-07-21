@@ -6,11 +6,6 @@ public class Book {
 	String bookName;
 	int price;
 	
-	
-	
-
-
-
 
 
 	//생성자 : constructor  : 객체 생성시 속성값을 초기화
