@@ -101,7 +101,7 @@ public class Main {
 				                    rdao.showFromToday();
 				                    
 				                    System.out.println();
-				                    break;
+				                    break; 
 				                case 2:
 				                	
 				                    memberMenu(sc, memberList);
