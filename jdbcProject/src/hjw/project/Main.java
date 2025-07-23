@@ -56,10 +56,10 @@ public class Main {
 				Member member = new Member(name, id, pw, birth, phone);
 				if(dao.insert(member))
 				{
-					System.out.println("정상 등록.");
+					System.out.println("회원가입이 완료되었습니다.");
 				}else
 				{
-					System.out.println("등록 중 오류.");
+					System.out.println("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
 				}
 				break;
 				
@@ -81,7 +81,7 @@ public class Main {
 					{
 						System.out.println("로그인 성공!");
 						System.out.println();
-						
+					
 						boolean logSs = true;
 						while(logSs)
 						{
@@ -96,42 +96,84 @@ public class Main {
 						
 							   switch (choice)
 							   {
-				                case 1:
+				                case 1 :
 				                	
-				                    rdao.showFromToday();
+				                    rdao.showFromToday();//-------예약 가능한 날짜
+				                    
+				                    System.out.print("\n예약할 날짜를 입력해주세요 (예: 07-25): ");
+				                    String inputDate = sc.nextLine();
+				                    
+			                    try {
+			                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd");
+			                        LocalDate selectedDate = LocalDate.parse(inputDate, formatter);
+
+			                        // 입력한 날짜가 오늘 이후인지 확인
+			                        if (selectedDate.isBefore(LocalDate.now())) {
+			                            System.out.println("오늘 이전 날짜는 선택할 수 없습니다.");
+			                        } else if (selectedDate.getMonthValue() != LocalDate.now().getMonthValue()) {
+			                            System.out.println("이번 달 내의 날짜만 선택할 수 있습니다.");
+			                        } else {
+			                            // 예약 성공 메시지
+			                            System.out.println(selectedDate.format(DateTimeFormatter.ofPattern("MM월 dd일")) + "로 예약이 완료되었습니다.");
+			                        }
+
+			                    } catch (DateTimeParseException e) {
+			                        System.out.println("날짜 형식이 올바르지 않습니다. 예: 07-25");
+			                    }
+
+			                    break;
+				                    
+				                    
 				                    
 				                    System.out.println();
 				                    break; 
-				                case 2:
+				                    
+				                case 2 :
 				                	
 				                    memberMenu(sc, memberList);
 				                    
 				                    break;
-				                case 9:
+				                    
+				                case 9 :
 				                    System.out.println("프로그램 종료.\n");
 				                    logSs = false; // 내부 메뉴 반복 종료
 				                    break;
+				                    
 				                default:
 				                    System.out.println("오류가 발생했습니다. 다시 시도해주세요.\n");
 				                    break;
 							   }
 						}
-			        
 					}else
 					{
 			        System.out.println("아이디나 비밀번호가 틀렸습니다.\n");
-			        //return;  //<- 로그인 반복을 끝내지 않으려면 이거 지우기
+			        continue;  //<- 로그인 반복을 끝내지 않으려면 이거 지우기
 					}		
 					run = false;
 					
+					
 				}//end while
-
+				break;
+				
 			case 3 : 
+				
 				System.out.println("====아이디 찾기====");
 				System.out.println("이름과 전화번호를 입력해주세요.");
+				System.out.print("이름 :  ");
 				name = sc.nextLine();
+				System.out.print("전화번호 :  ");
 				phone = sc.nextLine();
 				
+				String foundId = dao.idphCheck(name, phone);
+				
+				if(foundId != null)
+				{
+					System.out.println("\n아이디는 |" + foundId + "| 입니다.\n");
+				}else
+				{
+					System.out.println("일치하는 정보가 없습니다.");
+				}
+				break;
 				
 				
 				
@@ -184,6 +226,14 @@ public class Main {
 				System.out.println();
 				break;
 			case 2 : 
+				
+				System.out.println("===================================================");
+				System.out.println("고객명   정비내역    예약날짜    가격");
+				System.out.println("===================================================");
+				
+				
+				
+				
 			case 3 :
 				updateMem (sc, memberList);
 				break;
@@ -288,14 +338,15 @@ public class Main {
 	    }
 
 	    // 탈퇴 의사 확인
-	    while (run) {
+	    while (run)
+	    {
 	        System.out.print("회원탈퇴 하시겠습니까? (Y / N) : ");
 	        String slt = sc.nextLine();
 
 	        if (slt.equalsIgnoreCase("Y")) {
 	            if (dao.delete(id, pw)) {
 	                System.out.println("회원탈퇴가 완료되었습니다.\n 안녕히 가십시오.");
-	                run = false; // 프로그램 종료
+	                System.exit(0); // 프로그램 종료
 	            } else {
 	                System.out.println("오류가 발생했습니다.\n다시 시도해주세요.");
 	                return;

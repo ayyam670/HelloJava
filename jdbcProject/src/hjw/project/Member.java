@@ -7,7 +7,7 @@ public class Member {
 	private int birth;
 	private String phone;
 	
-	public Member() {}
+	public Member() {} //기본 생성자  DAO에서 Member객체를 생성할 떄 필요
 	
 	public Member(String name, String id, String pw, int birth, String phone)
 	{

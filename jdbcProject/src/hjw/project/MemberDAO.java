@@ -55,7 +55,7 @@ public class MemberDAO {
         return false; // 중복 아님
     }
     
-    public boolean idphCheck(String name, String phone)//----------------------------------아이디 찾기
+    public String idphCheck(String name, String phone)//------------------------------아이디 찾기
     {
     	Connection conn = DBUtil.getConnect();
     	String query = "SELECT * FROM member1 WHERE name = ? AND phone = ? ";
@@ -63,20 +63,20 @@ public class MemberDAO {
     		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setString(1,  name);
+			stmt.setString(1, name);
     		stmt.setString(2, phone);
     		
     		ResultSet ch = stmt.executeQuery();
     		
     		if(ch.next())
     		{
-    			return true;
+    			return ch.getString("id");
     		}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-    	return false;	
+    	return null;	
     	
     }
     
