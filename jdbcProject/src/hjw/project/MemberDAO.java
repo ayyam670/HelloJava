@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class MemberDAO {
-	public boolean insert(Member member)
+	public boolean insert(Member member)//------------------------------------------insert
 	{
 		Connection conn = DBUtil.getConnect();
 		String query = "insert into member1(name, id, pw, birth, phone)"
@@ -29,6 +29,75 @@ public class MemberDAO {
 				return true;
 			}
 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}//end insert
+	
+    public boolean idCheck(String id)//-------------------------------------아이디 중복체크
+    {
+        Connection conn = DBUtil.getConnect();
+        String query = "SELECT id FROM member1 WHERE id = ?";
+        
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                // 아이디가 이미 존재함
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // 중복 아님
+    }
+    
+    public boolean idphCheck(String name, String phone)//----------------------------------아이디 찾기
+    {
+    	Connection conn = DBUtil.getConnect();
+    	String query = "SELECT * FROM member1 WHERE name = ? AND phone = ? ";
+    	
+    		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setString(1,  name);
+    		stmt.setString(2, phone);
+    		
+    		ResultSet ch = stmt.executeQuery();
+    		
+    		if(ch.next())
+    		{
+    			return true;
+    		}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	return false;	
+    	
+    }
+    
+	
+
+	public boolean update(String id, String fPw)//----------------------------pw update
+	{
+		Connection conn = DBUtil.getConnect();
+		String query = "update member1 "
+						+ "set pw = ? "
+						+ "where id = ? ";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setString(1, fPw);
+			stmt.setString(2, id);
+			
+			int r = stmt.executeUpdate();
+			if(r > 0) //= 한건 입력이 되었으면
+			{
+				return true; 
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -36,12 +105,59 @@ public class MemberDAO {
 		return false;
 	}
 	
+	public boolean updatePhone(String id, String newPhone)//-------------------------phone update
+	{
+		Connection conn = DBUtil.getConnect();
+		String query = "update member1 "
+						+ "set phone = ? "
+						+ "where id = ? ";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setString(1, newPhone);
+			stmt.setString(2, id);
+			
+			int r = stmt.executeUpdate();
+			if(r > 0) //= 한건 입력이 되었으면
+			{
+				return true; 
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean delete(String id, String pw)//-----------------------------------------delete
+	{
+		Connection conn = DBUtil.getConnect();
+		String query = "delete from member1 "
+				       + "where id = ? "
+				       + "and pw = ? ";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setString(1, id);
+			stmt.setString(2, pw);
+			
+			int r = stmt.executeUpdate();
+			if(r > 0)
+			{
+				return true;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
 	public ArrayList<Member> findAll(String id, String pw)
 	{
 		Connection conn = DBUtil.getConnect();
 		ArrayList<Member> list = new ArrayList<Member>();
-		
 		Statement stmt;
+		
 		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from member1 where id = '"+ id +"' and pw = '" + pw + "'");
@@ -61,14 +177,14 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 		return list;
-	}
+	}//end findAll
 		
 		public ArrayList<Member> findAll2(String pw)
 		{
 			Connection conn = DBUtil.getConnect();
 			ArrayList<Member> list = new ArrayList<Member>();
-			
 			Statement stmt;
+			
 			try {
 				stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery("select * from member1 where pw =  '" + pw + "'");
@@ -88,7 +204,7 @@ public class MemberDAO {
 				e.printStackTrace();
 			}
 			return list;
-	}
+		}//end findAll2
 	
 	
 	
