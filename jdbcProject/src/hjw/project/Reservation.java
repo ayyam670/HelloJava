@@ -2,20 +2,21 @@ package hjw.project;
 
 public class Reservation {
 	private String id;
-	
-
-	private String service;
+	private String name;
+	private String phone;
+    private String service;
 	private String reservationDate;
-	private int price;
 	
 	public Reservation() {}
 	
-	public Reservation(String id, String service, String reservationDate, int price)
+	public Reservation(String id,String name, String phone, String service, String reservationDate)
 	{
 		this.id = id;
+		this.name = name;
+		this.phone = phone;
 		this.service = service;
 		this.reservationDate = reservationDate;
-		this.price = price;
+		
 	}
 	
 	
@@ -25,6 +26,22 @@ public class Reservation {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getService() {
@@ -43,11 +60,5 @@ public class Reservation {
 		this.reservationDate = reservationDate;
 	}
 
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
+	
 }//end class

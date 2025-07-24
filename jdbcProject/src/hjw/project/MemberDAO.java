@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class MemberDAO {
-	public boolean insert(Member member)//------------------------------------------insert
+	public boolean insert(Member member)//-------------------------------------insert
 	{
 		Connection conn = DBUtil.getConnect();
 		String query = "insert into member1(name, id, pw, birth, phone)"
@@ -35,6 +35,7 @@ public class MemberDAO {
 		return false;
 	}//end insert
 	
+		
     public boolean idCheck(String id)//-------------------------------------아이디 중복체크
     {
         Connection conn = DBUtil.getConnect();

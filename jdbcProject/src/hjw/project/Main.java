@@ -1,18 +1,24 @@
 package hjw.project;
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class Main {
 	static MemberDAO dao = new MemberDAO();
-	
+	static String Id = null;
+	static ArrayList<Member> memberList = new ArrayList<>();
+	static ArrayList<Reservation> list = new ArrayList<>();
+	static ReservationDAO rdao = new ReservationDAO();
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		boolean run = true;
-		ReservationDAO rdao = new ReservationDAO();
+		
 		
 		while(run)
 		{
@@ -55,6 +61,8 @@ public class Main {
 				}
 				
 				Member member = new Member(name, id, pw, birth, phone);
+				
+				
 				if(dao.insert(member))
 				{
 					System.out.println("회원가입이 완료되었습니다.");
@@ -70,12 +78,12 @@ public class Main {
 				{
 					System.out.println("<<< 로그인 >>>");
 					System.out.print("아이디  :  ");
-					String loginId = sc.nextLine();
+					Id = sc.nextLine();
 					System.out.print("비밀번호 :  ");
 					String loginPw = sc.nextLine();
 					
 					
-					ArrayList<Member> memberList = dao.findAll(loginId , loginPw);
+					ArrayList<Member> memberList = dao.findAll(Id , loginPw);
 					
 					
 					if(memberList.size() > 0)
@@ -84,16 +92,15 @@ public class Main {
 						System.out.println();
 					
 						
-						
 						boolean logSs = true;
 						while(logSs)
 						{
-							System.out.println("====메뉴 선택====");
+							System.out.println("\n====메뉴 선택====");
 							System.out.println("1. 정비 예약");
 							System.out.println("2. 회원정보 관리");
 							System.out.println("9. 프로그램 종료");
 							System.out.println("===============");
-							System.out.print("선택>>>  ");
+							System.out.print("\n선택>>>  ");
 							
 							int choice = Integer.parseInt(sc.nextLine());
 						
@@ -103,18 +110,81 @@ public class Main {
 				                	
 				                    rdao.showFromToday();//-------예약 가능한 날짜
 				                    
-				                    System.out.print("\n예약할 날짜를 입력해주세요 (예: 07-25): ");
+				                    System.out.println("\n예약할 날짜를 입력해주세요>>> (예: 07-25)");
 				                    String inputDate = sc.nextLine();
+				                 
+				                    if(!isValidDate(inputDate))
+				                    {
+				                    	System.out.println("날짜형식이 잘못되었습니다.");
+				                    	break;
+				                    }
 				                    
-			                    
-			                    
-					
-				                  
-				
+
+				                    LocalDate selectedDate = convertToDate(inputDate);
+				                    
+				                    
+				                    if (rdao.reserve(selectedDate))  // 예약 시도
+				                    {
+				                        System.out.println("날짜 선택이 완료되었습니다: " + selectedDate);
+				                        System.out.println();
+				                    } else {
+				                        System.out.println("이미 예약된 날짜입니다. 다른 날짜를 선택해주세요.");
+				                    }
+				                    
+				                    System.out.println("정비 항목을 선택해주세요>>>\n");
+				                    System.out.println("1. 엔진오일");
+				                    System.out.println("2. 타이어교체");
+				                    System.out.println("3. 얼라이먼트");
+				                    System.out.println("4. 이전 메뉴로");
+				                    int jung = Integer.parseInt(sc.nextLine());
+				                    
+				                    String selectedService = "";
+				                    
+				                    switch(jung)
+				                    {
+				                    case 1 :
+				                    	selectedService = "엔진오일";
+				                    	System.out.println("1. 엔진오일을 선택하셨습니다.");
+				                    	//System.out.println("예약이 완료되었습니다.");
+				                    	System.out.println();
+				                    	break;
+				                    case 2 :
+				                    	selectedService = "타이어교체";
+				                    	System.out.println("2. 타이어교체를 선택하셨습니다");
+				                    	//System.out.println("예약이 완료되었습니다.");
+				                    	System.out.println();
+				                    	break;
+				                    case 3 :
+				                    	selectedService = "얼라이먼트";
+				                    	System.out.println("3. 얼라이먼트를 선택하셨습니다.");
+				                    	//System.out.println("예약이 완료되었습니다.");
+				                    	System.out.println();
+				                    	break;
+				                    case 4 :
+				                    	System.out.println("이전 메뉴로 돌아갑니다.");
+				                    	break;
+				                    default : 
+				                    	System.out.println("잘못 입력하셨습니다.\n이전 메뉴로 돌아갑니다.");
+				                    }
+				                    
+				                 // 예약 완료 메시지 및 DB 저장
+				                    if (!selectedService.isEmpty()) {
+				                        String loginId = memberList.get(0).getId();
+				                        String loginName = memberList.get(0).getName();
+
+				                        boolean saved = rdao.saveReservation(loginId, loginName, selectedService, selectedDate);
+				                        if (saved) {
+				                            System.out.println("예약이 완료되었습니다.\n");
+				                        } else {
+				                            System.out.println("예약 실패.\n다시 시도해주세요.");
+				                        }
+				                    }
+				                    
+				                    break;
 				                    
 				                case 2 :
 				                	
-				                    memberMenu(sc, memberList);
+				                    memberMenu(sc, memberList, rdao);//-----------------
 				                    
 				                    break;
 				                    
@@ -162,8 +232,15 @@ public class Main {
 				
 				
 			case 9 :
-				//System.out.println("프로그램 종료."); ----------------이거 있으면 종료 두번뜸
+				System.out.println("프로그램 종료."); //----------------이거 있으면 종료 두번뜸
 				run = false;
+				break;
+			default :
+				System.out.println("잘못 입력하셨습니다.");
+				System.out.println("프로그램 종료."); //----------------이거 있으면 종료 두번뜸
+				run = false;
+				break;
+				
 			}
 		}
 		
@@ -171,16 +248,16 @@ public class Main {
 	}//end main
 	
 	
-	public static void memberMenu(Scanner sc, ArrayList<Member> memberList)
+	public static void memberMenu(Scanner sc, ArrayList<Member> memberList, ReservationDAO rdao)
 	//스캐너는 객체가 있어서 같은 객체를 재사용하기 위해 , 로그인에 성공한 회원의 정보를 받기위해
 	{
 		boolean loginMem = true;
 		
 		while(loginMem)
 		{
-			System.out.println("=======회원정보 관리=======");
+			System.out.println("\n=======회원정보 관리=======");
 			System.out.println("1. 회원정보조회");
-			System.out.println("2. 구매내역조회");
+			System.out.println("2. 예약내역조회");
 			System.out.println("3. 회원정보수정");
 			System.out.println("4. 회원탈퇴");
 			System.out.println("5. 이전 메뉴로 이동");
@@ -195,9 +272,9 @@ public class Main {
 			{
 			case 1 :
 				
-				System.out.println("===================================================");
-				System.out.println("이름\t아이디\t 비밀번호\t   생년월일    전화번호");
-				System.out.println("===================================================");
+				System.out.println("====================================================");
+				System.out.println("이름\t아이디\t 비밀번호\t     생년월일    전화번호");
+				System.out.println("====================================================");
 				for(int i = 0; i < memberList.size(); i++)
 				{
 					System.out.println(memberList.get(i).getName()
@@ -207,15 +284,24 @@ public class Main {
 								       + "   "  + memberList.get(i).getPhone()
             						   );
 				}
+				System.out.println("----------------------------------------------------");
 				System.out.println();
 				break;
+				
 			case 2 : 
-				
-				System.out.println("===================================================");
-				System.out.println("고객명   정비내역    예약날짜    가격");
-				System.out.println("===================================================");
+				ArrayList<Reservation> list = rdao.getAllReservations(Id);
 				
 				
+				System.out.println("=====================================================================");
+				System.out.println("예약자ID    예약자명     연락처             정비내역     예약날짜  ");
+				System.out.println("=====================================================================");
+				System.out.println(Id + "  " 
+						           + " " + memberList.get(0).getName()
+						           + "     " + memberList.get(0).getPhone()
+						           + "     " + list.get(0).getService()
+						           + "     " + list.get(0).getReservationDate());
+				System.out.println("---------------------------------------------------------------------");
+				System.out.println();
 				break;
 				
 			case 3 :
@@ -301,7 +387,11 @@ public class Main {
 					}
 					
 					break;
+					
+			default : 
+				System.out.println("잘못 입력하셨습니다. 다시 선택해주세요.");
 			}
+			loginMem = false;
 		}
 	}//end updateMem
 
@@ -345,6 +435,41 @@ public class Main {
 	}
 	
 	
+	public static boolean isValidDate(String input) {
+        // MM-dd 정규식 (01~12)-(01~31)
+        String regex = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$";
+
+        if (!input.matches(regex)) {
+            return false; // 정규식 불일치
+        }
+
+        try {
+            // 현재 연도 추가해서 전체 날짜로 만듦
+            String full = LocalDate.now().getYear() + "-" + input;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            // 날짜 파싱 시도
+            LocalDate.parse(full, formatter);
+            return true; // 유효한 날짜
+        } catch (DateTimeParseException e) {
+            return false; // 존재하지 않는 날짜
+        }
+    }
+	
+	
+	public static LocalDate convertToDate(String mmdd) {
+        // 현재 연도 가져오기
+        int year = LocalDate.now().getYear();
+
+        // "yyyy-MM-dd" 형태로 문자열 만들기
+        String fullDate = year + "-" + mmdd;
+
+        // 파서 정의
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // LocalDate로 변환
+        return LocalDate.parse(fullDate, formatter);
+    }
 
 }//end class
 
