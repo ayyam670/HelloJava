@@ -1,5 +1,6 @@
 package hjw.project;
 
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -82,6 +83,8 @@ public class Main {
 						System.out.println("로그인 성공!");
 						System.out.println();
 					
+						
+						
 						boolean logSs = true;
 						while(logSs)
 						{
@@ -103,30 +106,11 @@ public class Main {
 				                    System.out.print("\n예약할 날짜를 입력해주세요 (예: 07-25): ");
 				                    String inputDate = sc.nextLine();
 				                    
-			                    try {
-			                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd");
-			                        LocalDate selectedDate = LocalDate.parse(inputDate, formatter);
-
-			                        // 입력한 날짜가 오늘 이후인지 확인
-			                        if (selectedDate.isBefore(LocalDate.now())) {
-			                            System.out.println("오늘 이전 날짜는 선택할 수 없습니다.");
-			                        } else if (selectedDate.getMonthValue() != LocalDate.now().getMonthValue()) {
-			                            System.out.println("이번 달 내의 날짜만 선택할 수 있습니다.");
-			                        } else {
-			                            // 예약 성공 메시지
-			                            System.out.println(selectedDate.format(DateTimeFormatter.ofPattern("MM월 dd일")) + "로 예약이 완료되었습니다.");
-			                        }
-
-			                    } catch (DateTimeParseException e) {
-			                        System.out.println("날짜 형식이 올바르지 않습니다. 예: 07-25");
-			                    }
-
-			                    break;
-				                    
-				                    
-				                    
-				                    System.out.println();
-				                    break; 
+			                    
+			                    
+					
+				                  
+				
 				                    
 				                case 2 :
 				                	
@@ -144,13 +128,13 @@ public class Main {
 				                    break;
 							   }
 						}
+						run = false;
+						
 					}else
 					{
-			        System.out.println("아이디나 비밀번호가 틀렸습니다.\n");
-			        continue;  //<- 로그인 반복을 끝내지 않으려면 이거 지우기
+						System.out.println("아이디나 비밀번호가 틀렸습니다.\n");
+						//continue;  //<- 로그인 반복을 끝내지 않으려면 이거 지우기
 					}		
-					run = false;
-					
 					
 				}//end while
 				break;
@@ -232,7 +216,7 @@ public class Main {
 				System.out.println("===================================================");
 				
 				
-				
+				break;
 				
 			case 3 :
 				updateMem (sc, memberList);
