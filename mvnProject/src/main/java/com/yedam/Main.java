@@ -11,8 +11,25 @@ import com.yedam.vo.Book;
 
 
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
+		BookControl ctrl = new BookControl();
+		ctrl.exe();
 		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	void backup()
+	{
 		Object obj;
 		//RunExe 는 Runnable 구현하는 클래스.
 		//Runnable exe = new Runnable(); 도 가능 RunExe 3줄 참고 Runnable이 RunExe 포함
@@ -27,7 +44,7 @@ public class Main {
 		// 인터페이스 - 구현클래스.
 		BookMapper mapper = sqlSession.getMapper(BookMapper.class);
 		Book book = mapper.selectBook(1001); // = 단건조회
-		List<Book> list = mapper.List(); // = 목록조회
+		List<Book> list = mapper.selectList(1); // = 목록조회
 		System.out.println(list);
 		
 		

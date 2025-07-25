@@ -11,17 +11,35 @@
   
   
   <!-- 목록조회 -->
-  <select id="List" resultType = "com.yedam.vo.Book">
-    select *
-    from book
-    order by id desc
+  <select id="selectList" resultType = "com.yedam.vo.Book"
+  		   useCache="false" flushCache="true"
+  		   parameterType = "int">
+  		   
+    select b.*
+	  from (select rownum rn, a.*
+		      from (select *
+		            from book
+		            order by id) a) b
+	  where b.rn > (#{page} -1) * 5
+	  <![CDATA[
+	    and b.rn <= #{page} * 5
+	  ]]>
+	  
+	 
   
   </select>
   
+  <!-- 등록 resultType = "int"   로 정해져있어서 적으면 오류가 생김  -->
+  <insert id="insertBook" parameterType="com.yedam.vo.Book">
+  	insert into book (id, title, author, price)
+  	values(#{id}, #{title}, #{author}, #{price} )
   
+  </insert>
   
-  
-  
+  <delete id="deleteBook" parameterType="int">
+  	delete from book where id = #{id}
+  	
+  </delete>
   
   
 </mapper>

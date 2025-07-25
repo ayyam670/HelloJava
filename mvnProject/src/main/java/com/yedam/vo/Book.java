@@ -19,6 +19,20 @@ public class Book {
 		return "id: " + id + ", title: " + title + ", author: " + author + ", price:" + price ;
 	}
 	
+	public String showBrief()
+	{
+		return " " + id + " " + title + " " + price;
+ 	}
+	
+	public String showDetail()
+	{
+		String formaStr = "도서ID: " + id + " 제목: " + title;
+		formaStr += "\n저자:   " + author + " 가격: " + price + "원";
+		return formaStr;
+				//도서ID :  2001   제목 :  이천일번    저자 :  김이천   가격 :  2000원
+	}
+	
+	
 	//메소드.
 	public int getId() {
 		return id;
