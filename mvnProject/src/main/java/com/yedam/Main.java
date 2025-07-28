@@ -23,11 +23,6 @@ public class Main {
 	
 	
 	
-	
-	
-	
-	
-	
 	void backup()
 	{
 		Object obj;

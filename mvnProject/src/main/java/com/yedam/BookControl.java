@@ -54,6 +54,9 @@ public class BookControl {
 	void bookList()
 	{
 		int page = 1;
+		int lastPage = 1; // 마지막페이지 정보.
+		
+		//lastPage = (int) Math.ceilDiv(mapper.totalCount() * 1.0 / 5, lastPage);
 		
 		while(true)
 		{
