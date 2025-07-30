@@ -1,6 +1,8 @@
 <%@page import="org.apache.ibatis.reflection.SystemMetaObject"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,25 +10,48 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<jsp:forward page="boardList.do"></jsp:forward>
+	
+
 	<h3>Hello, JSP</h3>
-	<%
-	String msg = "Hello, World";
-	System.out.println(msg);
-	int age = 20;
-	%>
-	<p>여기는 HTML영역입니다</p>
-	<%
-	if(age >= 20)
-	{
-	%>
-	<p>성년입니다</p>
-	<%
-	}else
-	{
-	%>	
-	<p>미성년입니다</p>
-	<%
-	}
-	%>		
+	<c:set var="name" value="홍길동"></c:set>
+	<c:out value="${name }"></c:out>
+	
+	<!-- null, ""  empty 가 처리해줌 -->
+	
+	<c:choose>
+		<c:when test="${not empty name }">
+			<p>정답</p>
+		</c:when>
+		<c:otherwise>
+			<p>오답</p>
+		</c:otherwise>
+	</c:choose>
+	
+	<c:set var="age" value="19"></c:set>
+	
+	<c:if test="${age >= 20 }">
+		<p>당신은 성년입니다</p>
+	</c:if>
+	
+	<c:choose>
+		<c:when test="${age >= 30 }">
+			<p style ="color: red;">성년</p>
+		</c:when>
+		<c:when test="${age >= 20 }">
+			<p style ="color: blue;">청년</p>
+		</c:when>
+		<c:otherwise>
+			<p style ="color: green;">미성년</p>
+		</c:otherwise>
+	</c:choose>
+	
+	<c:forEach var = "i" begin = "1" end = "9" step = "2">
+		<p>2 * ${i } = ${2 * i }</p>
+	</c:forEach>
+	
+	
+	
+	
 </body>
 </html>
