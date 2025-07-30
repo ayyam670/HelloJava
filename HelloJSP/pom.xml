@@ -27,14 +27,19 @@
 			<version>1.18.38</version>
 		</dependency>
 
-<!--<dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version> <!-- 또는 3.1.0, 사용하는 톰캣 버전에 맞게 -->
+			<scope>provided</scope>
+		</dependency>
+
+		<!--<dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
         <version>4.0.1</version>  또는 톰캣 버전에 맞는 버전
         <scope>provided</scope>
     </dependency> -->
-
-	
 
 
 	</dependencies>
