@@ -38,7 +38,6 @@ public class ModifyBoardControl implements Control {
 			
 		}else
 		{
-			req.setAttribute("msg", "게시글 수정 실패");
 			req.setAttribute("board_info", param);
 			req.getRequestDispatcher("WEB-INF/html/board.jsp").forward(req, resp);
 		}
