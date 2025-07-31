@@ -7,17 +7,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.yedam.common.Control;
 import com.yedam.service.MemberService;
 import com.yedam.service.MemberServiceImpl;
 import com.yedam.vo.MemberVO;
 
-public class LoginControl {
+public class LoginControl implements Control{
 	
-	
+	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// param : uname, psw
 		String id = req.getParameter("uname");
-		String pw = req.getParameter("id");
+		String pw = req.getParameter("psw");
 		
 		// DB 처리
 		MemberService svc = new MemberServiceImpl();
@@ -31,6 +32,8 @@ public class LoginControl {
 		{
 			//정상 id, pw
 			HttpSession session = req.getSession(); //
+			session.setAttribute("logId", id); // 속성(logId) = 로그인 아이디를 담아둠
+			resp.sendRedirect("boardList.do");
 		}
 	}
 }

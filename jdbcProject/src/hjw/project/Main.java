@@ -295,11 +295,18 @@ public class Main {
 				System.out.println("=====================================================================");
 				System.out.println("예약자ID    예약자명     연락처             정비내역     예약날짜  ");
 				System.out.println("=====================================================================");
-				System.out.println(Id + "  " 
+				
+				 if (!memberList.isEmpty() && !list.isEmpty())
+				 {
+					 System.out.println(Id + "  " 
 						           + " " + memberList.get(0).getName()
 						           + "     " + memberList.get(0).getPhone()
 						           + "     " + list.get(0).getService()
 						           + "     " + list.get(0).getReservationDate());
+				 } else
+				 {
+				     System.out.println("예약 정보 또는 회원 정보가 없습니다.");
+				 }
 				System.out.println("---------------------------------------------------------------------");
 				System.out.println();
 				break;

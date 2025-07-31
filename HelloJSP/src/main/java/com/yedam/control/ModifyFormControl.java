@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.yedam.common.Control;
 import com.yedam.service.BoardService;
@@ -17,17 +18,37 @@ public class ModifyFormControl implements Control {
 	public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 수정화면  ex) bno=3 일때 수정
 		String bno = req.getParameter("bno");
+		String page = req.getParameter("page");
 		
 		// DB조회
 		BoardService svc = new BoardServiceImpl();
 		BoardVO board = svc.searchBoard(Integer.parseInt(bno));
 		
+		// 권한확인. (로그인 아이디와 작성자 아이디를 비교해서 권한 확인)
+		HttpSession session = req.getSession();
+		String logId = (String) session.getAttribute("logId");
+		
+		if(logId != null && logId.equals(board.getWriter()))
+		{
 		// view영역(jsp)로 값을 전달
 		req.setAttribute("board_info", board);
+		req.setAttribute("page", page);
 		
-
 		// 요청 재지정.
 		req.getRequestDispatcher("WEB-INF/html/modify_board.jsp").forward(req, resp);
+		
+		
+		}else
+		{
+			// 권한 없을 경우.
+			
+			// board_info 
+			req.setAttribute("board_info", board);
+			req.setAttribute("msg", "권한이 없습니다");
+			
+			// 요청 재지정.
+			req.getRequestDispatcher("WEB-INF/html/board.jsp").forward(req, resp);
+		}
 
 	}
 

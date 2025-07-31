@@ -5,9 +5,10 @@
 	
 <jsp:include page = "includes/header.jsp" />    <!-- 액션태그 -->
 
-<h3>register_form.jsp</h3>
+<h3>게시글 작성(register_form.jsp)</h3>
 	
 <form action='addBoard.do' method='post'>
+	<input type="hidden" name="writer" value="${logId }" class='form-control'>
 	<table border='1'class='table table-striped'>
 		<tr>
 			<th>제목</th>
@@ -15,7 +16,7 @@
 		</tr>
 		<tr>
 			<th>작성자</th>
-			<td><input type="text" name="writer" class='form-control'></td>
+			<td>${logId }</td>
 		</tr>
 		<tr>
 			<th>내용</th>

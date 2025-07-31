@@ -9,8 +9,14 @@
 
 
 <h3>글상세화면(board.jsp)</h3>
+	<!--<c:if test="${!empty msg }">
+		<div style="color : red;">${msg }</div>
+	</c:if>	-->
+		
 <form action="modifyForm.do">
 <input type="hidden" value="${board_info.boardNo }" name="bno">
+<input type="hidden" value="${page }" name="page">
+
 <table class="table">
   <tr>
     <th>글번호</th>
@@ -35,9 +41,18 @@
   <tr>
   	<td colspan ="4" align="center">
   		<input type="submit" value="수정" class="btn btn-success">
-  		<button type="button" onclick ="location.href='remove.do?bno=${board_info.boardNo}'" class="btn btn-danger">삭제</button>
+  		<button type="button"  onclick ="location.href='remove.do?bno=${board_info.boardNo}' " class="btn btn-danger" ${logId eq board_info.writer ? '': 'disabled'}>삭제</button>
   	</td>
   </tr>
+  
+  	<c:if test="${!empty msg }">
+  		<tr>
+  			<td colspan ="4" align = "center">
+				<div style="color : red;">${msg }</div>
+			</td>
+  		</tr>
+	</c:if>	
+  	
 </table>
 </form>
 

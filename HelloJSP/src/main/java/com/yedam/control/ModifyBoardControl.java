@@ -1,6 +1,7 @@
 package com.yedam.control;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,8 @@ public class ModifyBoardControl implements Control {
 		String title = req.getParameter("title");
 		String content = req.getParameter("content");
 		
+		String page = req.getParameter("page");
+		
 		BoardVO param = new BoardVO();
 		param.setBoardNo(Integer.parseInt(bno));
 		param.setTitle(title);
@@ -32,7 +35,8 @@ public class ModifyBoardControl implements Control {
 		
 		if(svc.modifyBoard(param))
 		{
-			resp.sendRedirect("board.do?bno=" + bno);
+			
+			resp.sendRedirect("boardList.do?page=" + page);
 			
 		}else
 		{

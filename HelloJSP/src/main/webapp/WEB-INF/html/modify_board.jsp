@@ -11,6 +11,8 @@
 <h3>글수정화면(modify_board.jsp)</h3>
 <form action="modifyBoard.do">
 <input type="hidden" value="${board_info.boardNo }" name="bno">
+<input type="hidden" value="${page }" name="page">
+
 <table class="table">
   <tr>
     <th>글번호</th>

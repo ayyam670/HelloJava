@@ -5,15 +5,19 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.yedam.common.Control;
 
-public class LoginFormControl implements Control {
+public class LogoutControl implements Control {
 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO 자동 생성된 메소드 스텁
+		HttpSession session = req.getSession();
+		session.invalidate();
 		
-		req.getRequestDispatcher("WEB-INF/html/login_form.jsp").forward(req, resp);
+		resp.sendRedirect("boardList.do");
 	}
 
 }
