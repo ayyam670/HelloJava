@@ -16,10 +16,9 @@ public class ModifyBoardControl implements Control {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 수정한 글 저장
-		
 		req.setCharacterEncoding("utf-8");
-		String bno = req.getParameter("bno");
 		
+		String bno = req.getParameter("bno");
 		String title = req.getParameter("title");
 		String content = req.getParameter("content");
 		
@@ -30,16 +29,16 @@ public class ModifyBoardControl implements Control {
 		
 		//DB조회
 		BoardService svc = new BoardServiceImpl();
-		Boolean result = svc.updateBoard(param);
 		
-		if(result)
+		if(svc.modifyBoard(param))
 		{
 			resp.sendRedirect("board.do?bno=" + bno);
 			
 		}else
 		{
-			req.setAttribute("board_info", param);
-			req.getRequestDispatcher("WEB-INF/html/board.jsp").forward(req, resp);
+			System.out.println("에러발생");
+			//req.setAttribute("board_info", param);
+			//req.getRequestDispatcher("WEB-INF/html/board.jsp").forward(req, resp);
 		}
 		
 		

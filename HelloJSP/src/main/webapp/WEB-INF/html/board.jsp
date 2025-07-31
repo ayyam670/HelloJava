@@ -35,7 +35,7 @@
   <tr>
   	<td colspan ="4" align="center">
   		<input type="submit" value="수정" class="btn btn-success">
-  		<button type="button" class="btn btn-danger">삭제</button>
+  		<button type="button" onclick ="location.href='remove.do?bno=${board_info.boardNo}'" class="btn btn-danger">삭제</button>
   	</td>
   </tr>
 </table>

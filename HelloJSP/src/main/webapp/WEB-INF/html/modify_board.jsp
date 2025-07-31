@@ -20,11 +20,13 @@
   </tr>
   <tr>
     <th>제목</th>
-    <td colspan='3'><input type="text" class='form-control' name="title" value="${board_info.title }" /></td>
+    <td colspan='3'>
+    	<input type="text" class='form-control' name="title" value="${board_info.title }" /></td>
   </tr>
   <tr>
     <th>내용</th>
-    <td colspan='3'><textarea class='form-control' name="content">${board_info.content }</textarea></td>
+    <td colspan='3'>
+    	<textarea class='form-control' name="content">${board_info.content }</textarea></td>
   </tr>
   <tr>
     <th>작성자</th>
