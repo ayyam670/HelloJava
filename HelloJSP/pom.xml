@@ -26,6 +26,23 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.38</version>
 		</dependency>
+
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version> <!-- 또는 3.1.0, 사용하는 톰캣 버전에 맞게 -->
+			<scope>provided</scope>
+		</dependency>
+
+		<!--<dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>4.0.1</version>  또는 톰캣 버전에 맞는 버전
+        <scope>provided</scope>
+    </dependency> -->
+
+
 		<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -43,6 +60,7 @@
 			<artifactId>taglibs-standard-impl</artifactId>
 			<version>1.2.5</version>
 		</dependency>
+
 
 	</dependencies>
 
