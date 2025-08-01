@@ -15,7 +15,7 @@ public class RegisterControl implements Control {
 		// WEB-INF/html/register_form.html
 		
 			// 요청 재지정.
-			req.getRequestDispatcher("WEB-INF/html/register_form.jsp").forward(req, resp);
+			req.getRequestDispatcher("user/register_form.tiles").forward(req, resp);
 			//여기 try catch 하거나 throws ServletException, IOException , Control에도 
 
 	}

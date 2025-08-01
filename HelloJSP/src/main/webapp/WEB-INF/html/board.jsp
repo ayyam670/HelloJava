@@ -5,8 +5,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<jsp:include page="includes/header.jsp" />
-
 
 <h3>글상세화면(board.jsp)</h3>
 	<!--<c:if test="${!empty msg }">
@@ -17,6 +15,7 @@
 <input type="hidden" value="${board_info.boardNo }" name="bno">
 <input type="hidden" value="${page }" name="page">
 
+
 <table class="table">
   <tr>
     <th>글번호</th>
@@ -26,11 +25,11 @@
   </tr>
   <tr>
     <th>제목</th>
-    <td colspan='3'><c:out value = "${board_info.title }" /></td>
+    <td colspan='4'><c:out value = "${board_info.title }" /></td>
   </tr>
   <tr>
     <th>내용</th>
-    <td colspan='3'><c:out value = "${board_info.content }" /></td>
+    <td colspan='4'><c:out value = "${board_info.content }" /></td>
   </tr>
   <tr>
     <th>작성자</th>
@@ -39,9 +38,28 @@
     <td><fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" value = "${board_info.creationDate }" /></td>
   </tr>
   <tr>
+  	<th>첨부파일명</th>
+  	<td colspan = '2'> 
+  		<c:out value="${board_info.image }"></c:out>
+  	</td>
+  	<td rowspan = '2' align = 'center'>
+    	<c:choose>
+    		<c:when test="${!empty board_info.image }">
+    			<img width = "130px" src = 'upload/${board_info.image }'>
+    		</c:when>
+    		<c:otherwise>
+    			<img src = 'https://dummyimage.com/130X130/000/2bb364.jpg&text=No+Image'>
+    		</c:otherwise>
+    	</c:choose>
+    </td>
+  </tr>
+
+
+  <tr>
   	<td colspan ="4" align="center">
   		<input type="submit" value="수정" class="btn btn-success">
   		<button type="button"  onclick ="location.href='remove.do?bno=${board_info.boardNo}' " class="btn btn-danger" ${logId eq board_info.writer ? '': 'disabled'}>삭제</button>
+  		<button type="button" onclick = "location.href='boardList.do?page=${page}'" class="btn btn-secondary">목록</button>
   	</td>
   </tr>
   
@@ -55,7 +73,3 @@
   	
 </table>
 </form>
-
-
-
-<jsp:include page="includes/footer.jsp" />

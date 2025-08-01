@@ -20,6 +20,7 @@ public class ModifyFormControl implements Control {
 		String bno = req.getParameter("bno");
 		String page = req.getParameter("page");
 		
+		
 		// DB조회
 		BoardService svc = new BoardServiceImpl();
 		BoardVO board = svc.searchBoard(Integer.parseInt(bno));
@@ -33,9 +34,10 @@ public class ModifyFormControl implements Control {
 		// view영역(jsp)로 값을 전달
 		req.setAttribute("board_info", board);
 		req.setAttribute("page", page);
+		//req.setAttribute("image", image);
 		
 		// 요청 재지정.
-		req.getRequestDispatcher("WEB-INF/html/modify_board.jsp").forward(req, resp);
+		req.getRequestDispatcher("user/modify_board.tiles").forward(req, resp);
 		
 		
 		}else
@@ -47,7 +49,7 @@ public class ModifyFormControl implements Control {
 			req.setAttribute("msg", "권한이 없습니다");
 			
 			// 요청 재지정.
-			req.getRequestDispatcher("WEB-INF/html/board.jsp").forward(req, resp);
+			req.getRequestDispatcher("user/board.tiles").forward(req, resp);
 		}
 
 	}

@@ -2,11 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<jsp:include page="includes/header.jsp" />
 
 <!-- 강제 형변환(casting) --> 
-
-
 
 
 <!-- 검색 -->
@@ -107,4 +104,3 @@
   </ul>
 </nav>
 
-<jsp:include page="includes/footer.jsp" />

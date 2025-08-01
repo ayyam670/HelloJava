@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.yedam.common.Control;
 import com.yedam.common.PageDTO;
@@ -14,8 +15,7 @@ import com.yedam.service.BoardService;
 import com.yedam.service.BoardServiceImpl;
 import com.yedam.vo.BoardVO;
 
-public class BoardListControl implements Control
-{
+public class BoardListControl implements Control {
 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
@@ -51,11 +51,27 @@ public class BoardListControl implements Control
 				req.setAttribute("searchCondition", sc);
 				req.setAttribute("keyword", kw);
 				
+		// 권한에 따라서 템플릿 적용
+		HttpSession session = req.getSession();
+		String authority = (String) session.getAttribute("auth");
+		
+		if(authority.equals("User"))
+		{
+			req.getRequestDispatcher("user/Board_list.tiles").forward(req, resp);
+		}
+		else if(authority.equals("Admin"))
+		{
+			req.getRequestDispatcher("manager/Board_list.tiles").forward(req, resp);
+		}
+		else
+		{
+			
+			req.getRequestDispatcher("user/Board_list.tiles").forward(req, resp);
+		}
+		
 				
-		// 요청 재지정.
-		req.getRequestDispatcher("WEB-INF/html/Board_list.jsp").forward(req, resp);
 		
 		
 	}
-	
+
 }
