@@ -55,19 +55,22 @@ public class BoardListControl implements Control {
 		HttpSession session = req.getSession();
 		String authority = (String) session.getAttribute("auth");
 		
+		if(authority == null)
+		{
+			req.getRequestDispatcher("user/board_list.tiles").forward(req, resp);
+			return;
+		}
+		
+		
 		if(authority.equals("User"))
 		{
-			req.getRequestDispatcher("user/Board_list.tiles").forward(req, resp);
+			req.getRequestDispatcher("user/board_list.tiles").forward(req, resp);
 		}
 		else if(authority.equals("Admin"))
 		{
-			req.getRequestDispatcher("manager/Board_list.tiles").forward(req, resp);
+			req.getRequestDispatcher("manager/board_list.tiles").forward(req, resp);
 		}
-		else
-		{
-			
-			req.getRequestDispatcher("user/Board_list.tiles").forward(req, resp);
-		}
+		
 		
 				
 		
