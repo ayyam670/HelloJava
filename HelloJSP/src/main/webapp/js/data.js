@@ -1,0 +1,44 @@
+/**
+ * data.js
+ */
+
+const str = `[{"id":1,"first_name":"Eduard","last_name":"Wyllcocks","email":"ewyllcocks0@stanford.edu","gender":"Male","salary":7582},
+{"id":2,"first_name":"Preston","last_name":"Nelles","email":"pnelles1@epa.gov","gender":"Male","salary":5850},
+{"id":3,"first_name":"Carrol","last_name":"Clifforth","email":"cclifforth2@networksolutions.com","gender":"Male","salary":6988},
+{"id":4,"first_name":"Rheta","last_name":"MacSporran","email":"rmacsporran3@wsj.com","gender":"Female","salary":5306},
+{"id":5,"first_name":"Dorree","last_name":"Pethick","email":"dpethick4@imdb.com","gender":"Female","salary":7634},
+{"id":6,"first_name":"Alon","last_name":"McNeil","email":"amcneil5@wiley.com","gender":"Male","salary":5351},
+{"id":7,"first_name":"Dudley","last_name":"Deason","email":"ddeason6@shinystat.com","gender":"Male","salary":6184},
+{"id":8,"first_name":"Madelon","last_name":"Cragoe","email":"mcragoe7@businesswire.com","gender":"Female","salary":7294},
+{"id":9,"first_name":"Patrice","last_name":"Naisbitt","email":"pnaisbitt8@answers.com","gender":"Genderqueer","salary":8886},
+{"id":10,"first_name":"Ingrim","last_name":"Matthewes","email":"imatthewes9@spiegel.de","gender":"Male","salary":9307},
+{"id":11,"first_name":"Katheryn","last_name":"Blodgetts","email":"kblodgettsa@vistaprint.com","gender":"Female","salary":7721},
+{"id":12,"first_name":"Shamus","last_name":"McGirl","email":"smcgirlb@flickr.com","gender":"Male","salary":7284},
+{"id":13,"first_name":"Coralyn","last_name":"Arch","email":"carchc@twitter.com","gender":"Female","salary":7922},
+{"id":14,"first_name":"Ashlie","last_name":"Brann","email":"abrannd@cafepress.com","gender":"Female","salary":6576},
+{"id":15,"first_name":"Solomon","last_name":"Lambersen","email":"slambersene@sina.com.cn","gender":"Male","salary":5100}]`;
+
+//json 문자열(객체) -> JSON.parse() -> 객체.
+let members = JSON.parse(str);
+
+//console.log(str);
+//console.log(members[0].first_name);
+
+let students = [{name : "Hong", age : 20}, {name : "Choi", age : 21}]
+//json 문자열    [{"name":"Hong","age":20},{"name":"Choi","age":21}]
+
+//객체 -> JSON.stringify() -> json문자열.
+let json = JSON.stringify(students);
+
+//console.log(json);
+
+// 반목문(forEach) => 성별 : Female 급여 : 6000 이상인 사람을 출력.
+
+	members.forEach(elem =>
+	{
+		if(elem.gender == "Female" && elem.salary >= 6000)
+			{
+				console.log(elem.id + "번 " + elem.last_name + " '" + elem.gender + "' " + elem.salary + "원");
+			}
+	});
+
