@@ -27,8 +27,8 @@ public class MemberListControl implements Control {
 		member.setResponsibility(responsibility);
 		
 		
-		MemberService mvs = new MemberServiceImpl;
-		List<MemberVO> mList = mvs.memberList(member);
+		MemberService mvs = new MemberServiceImpl();
+		List<MemberVO> mList = mvs.MemberList(member);
 		
 		
 	}
