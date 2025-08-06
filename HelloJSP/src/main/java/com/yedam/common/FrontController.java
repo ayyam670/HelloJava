@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yedam.control.AddBoardControl;
+import com.yedam.control.AddReplyControl;
 import com.yedam.control.BoardControl;
 import com.yedam.control.BoardListControl;
 import com.yedam.control.JSControl;
@@ -22,6 +23,7 @@ import com.yedam.control.ModifyBoardControl;
 import com.yedam.control.ModifyFormControl;
 import com.yedam.control.RegisterControl;
 import com.yedam.control.RemoveControl;
+import com.yedam.control.RemoveReplyControl;
 import com.yedam.control.ReplyListControl;
 import com.yedam.control.SignFormControl;
 import com.yedam.control.SignUpControl;
@@ -64,6 +66,8 @@ public class FrontController extends HttpServlet
 		
 		// 댓글관련.
 		map.put("/replyList.do", new ReplyListControl()); // 글번호 -> 댓글목록
+		map.put("/removeReply.do", new RemoveReplyControl()); // 댓글 삭제
+		map.put("/addReply.do", new AddReplyControl()); // 댓글 등록
 	}
 	
 	@Override
@@ -75,7 +79,7 @@ public class FrontController extends HttpServlet
 		String uri = req.getRequestURI();
 		String context = req.getContextPath();                 //  /HelloJSP       프로젝트
 		String page = uri.substring(context.length());         //  /boardList.do     /HelloJSP  9글자 부터~.length() ~글자인지 파악
-		                                                       //substring = ~ 부터 ~ 까지 잘라서 문자열을 반환하겠다
+		        // System.out.println(page);                   //substring = ~ 부터 ~ 까지 잘라서 문자열을 반환하겠다
 		
 		Control control = map.get(page);
 		control.execute(req, resp);

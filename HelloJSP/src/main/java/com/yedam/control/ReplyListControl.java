@@ -21,10 +21,11 @@ public class ReplyListControl implements Control {
 			//댓글 목록(json 문자열)  json으로 안해주면 text로 들어옴
 		resp.setContentType("text/json;charset=utf-8");
 		String bno = req.getParameter("bno");
+		String page = req.getParameter("page");
 		
 		ReplyService svc = new ReplyServiceImpl();
 		
-		List<ReplyVO> list = svc.replyList(Integer.parseInt(bno));
+		List<ReplyVO> list = svc.replyList(Integer.parseInt(bno), Integer.parseInt(page));
 		
 		//Gson 라이브러리 활용해서 json 문자열 객체 생성
 		Gson gson = new GsonBuilder().create();
