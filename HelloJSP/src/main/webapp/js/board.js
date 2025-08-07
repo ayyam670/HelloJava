@@ -43,89 +43,169 @@ function showReplyList()
 	
 	// 목록 출력
 	svc.replyList({bno, page}, // 첫번째 param
-		result =>
-		{
-			result.forEach(reply =>
+		result => result.forEach(reply =>
 			{
-				let li = makeRow(reply);
-				document.querySelector('div.content>ul').appendChild(li);
-			})
-		},   // 두번째 param
+				// insertAdjacentHTML
+				let target = document.querySelector('div.content>ul');
+				let text = `<li>
+								<span class="col-sm-2">${reply.replyNo}</span>
+								<span class="col-sm-5">${reply.reply}</span>
+								<span class="col-sm-2">${reply.logId}</span>
+								<span class="col-sm-2"><button onclick='deleteRowFnc(event)'>삭제</button></span>
+							</li>`;
+				target.insertAdjacentHTML('beforeend', text); // position, text
+				
+				//let li = makeRow(reply);
+				//document.querySelector('div.content>ul').appendChild(li);
+			}),   // 두번째 param
 		err => console.error(err)  // 세번째 param
 	);
+	pagingList();
 }// END showReplyList
 showReplyList(); // 최초목록 출력.
 	
-// 이벤트 등록.
-document.querySelector('#addReply').addEventListener('click', function(e)
+
+
+// 페이징 목록 출력.
+function pagingList()
 {
-	// 필요한 값 = 게시글 번호(bno), 작성자(logId), 댓글(reply) -> board.jsp 젤 밑에 선언 , reply 는 id = reply로 선언되있음
-	let reply = document.querySelector('#reply').value;
-	
-	if(!bno || !reply || !logId) // true/false => falsy(0, '', null, undefined) 거짓으로 받아들임
+	svc.replyTotalCount(bno,
+		result => 
+		{
+			let totalCnt = result.totalCnt; // 80
+			let paging = new PageVO(page, totalCnt);
+			console.log(paging);
+			
+			// parent 요소.
+			let target = document.querySelector('div.pagination');
+			target.innerHTML = ''; //기존에 있던 목록 삭제
+			
+			// 이전 페이지 여부
+			if (paging.prev)
+			{
+				let atag = document.createElement('a');
+				atag.href = paging.start - 1;
+				atag.setAttribute('data-page', paging.start -1);
+				atag.innerHTML = '&laquo;';
+				target.appendChild(atag);
+			}
+			
+			// start ~ end
+			for(let p = paging.start;  p <= paging.end; p++)
+			{
+				let atag = document.createElement('a');
+				atag.href = p; //setAttribute('href', p); // <a href ="3">
+				atag.setAttribute('data-page', p);
+				atag.innerText = p;
+				
+				if(p == paging.currPage)
+				{
+					atag.setAttribute('class', 'active');
+				}
+				
+				
+				target.appendChild(atag); // <div class="pagination"><a/><div>
+			}
+			// 이후 페이지
+			if (paging.next)
+			{
+				let atag = document.createElement('a');
+				atag.href = paging.end + 1;
+				atag.setAttribute('data-page', paging.end + 1);
+				atag.innerHTML = '&raquo;';
+				target.appendChild(atag);
+			}
+			// a태그에 클릭이벤트.
+			addEventClick();
+		},
+		err => console.error(err)
+	);
+}
+
+
+
+// 이벤트 등록.
+//function addEvent()
+//{
+	document.querySelector('#addReply').addEventListener('click', function(e)
 	{
-		alert('댓글을 입력하거나 로그인을 해주세요.');
-		return;
-	}
-	
-	// 서버 호출
-/*
-	fetch('addReply.do?bno=' + bno + '&reply=' + reply + '&replyer=' + logId)
-		.then(resolve => resolve.json()) // js객체
-		.then(result =>
-			{
-				console.log(result);
-				if(result.retCode == 'OK')
-				{
-					let r = result.retVal;
-					let li = makeRow(r);
-					document.querySelector('div.content>ul').appendChild(li);
-				}
-				else if(result.retCode == 'NG')
-				{
-					alert('처리중 예외발생');
-				}
-				else{
-					alert('알수 없는 코드');
-				}
-			})
-		.catch(err => console.error(err));
-*/
+		// 필요한 값 = 게시글 번호(bno), 작성자(logId), 댓글(reply) -> board.jsp 젤 밑에 선언 , reply 는 id = reply로 선언되있음
+		let reply = document.querySelector('#reply').value;
 		
-		svc.registerReply({bno, reply, replyer: logId}, // 첫번째 param
-		result =>
-			{
-				console.log(result);
-				if(result.retCode == 'OK')
+		if(!bno || !reply || !logId) // true/false => falsy(0, '', null, undefined) 거짓으로 받아들임
+		{
+			
+			alert('댓글을 입력하거나 로그인을 해주세요.');
+			return;
+		}
+		
+		// 서버 호출
+	/*
+		fetch('addReply.do?bno=' + bno + '&reply=' + reply + '&replyer=' + logId)
+			.then(resolve => resolve.json()) // js객체
+			.then(result =>
 				{
-					let r = result.retVal;
-					let li = makeRow(r);
-					document.querySelector('div.content>ul').appendChild(li);
-				}
-				else if(result.retCode == 'NG')
+					console.log(result);
+					if(result.retCode == 'OK')
+					{
+						let r = result.retVal;
+						let li = makeRow(r);
+						document.querySelector('div.content>ul').appendChild(li);
+					}
+					else if(result.retCode == 'NG')
+					{
+						alert('처리중 예외발생');
+					}
+					else{
+						alert('알수 없는 코드');
+					}
+				})
+			.catch(err => console.error(err));
+	*/
+			
+			svc.registerReply({bno, reply, replyer: logId}, // 첫번째 param
+			result =>
 				{
-					alert('처리중 예외발생');
-				}
-				else{
-					alert('알수 없는 코드');
-				}
-			},  // 두번째 param
-			err => console.error(err) // 세번째 param
-		);
-});
+					
+					console.log(result);
+					if(result.retCode == 'OK')
+					{
+						showReplyList();
+						//let r = result.retVal;
+						//let li = makeRow(r);
+						//document.querySelector('div.content>ul').appendChild(li);
+					}
+					else if(result.retCode == 'NG')
+					{
+						alert('처리중 예외발생');
+					}
+					else{
+						alert('알수 없는 코드');
+					}
+				},  // 두번째 param
+				err => console.error(err) // 세번째 param
+			);
+	});
+//}
+
 	
 // 페이지 링크에 클릭 이벤트
-document.querySelectorAll('div.footer>div.pagination>a')
-.forEach(atag =>
+function addEventClick()
 {
-	atag.addEventListener('click', e =>
+	document.querySelectorAll('div.footer>div.pagination>a')
+	.forEach(atag =>
 	{
-		e.preventDefault(); // 태그의 기본기능을 막는 기능
-		page = e.target.innerText;
-		//목록 그려주기
-		showReplyList();
+		atag.addEventListener('click', e =>
+		{
+			e.preventDefault(); // 태그의 기본기능을 막는 기능
+			page = e.target.dataset.page; // data-page => dataset.page
+			//console.log(page);
+			//목록 그려주기
+			showReplyList();
+			//console.log(e);
+		})
 	})
-})
+}
 
 
 
@@ -167,6 +247,7 @@ function makeRow(reply)
 function deleteRowFnc(e)
 {
 	let rno = e.target.parentElement.parentElement.children[0].innerText;
+	rno = e.target.closest('li').firstElementchildren[0].innerText;
 	console.log(rno);
 	if(!confirm(`${rno} 번 글을 삭제하시겠습니까?`))
 	{
@@ -185,7 +266,7 @@ function deleteRowFnc(e)
 				
 			}else if (result.retCode == 'NG')
 			{
-				alert('삭제살패!!')
+				alert('삭제실패!!')
 			}else
 			{
 				alert('알수 없는 코드입니다.')	
@@ -197,11 +278,12 @@ function deleteRowFnc(e)
 		{
 			if(result.retCode =='OK')
 			{
-				e.target.parentElement.parentElement.remove();
+				//e.target.parentElement.parentElement.remove();
+				showReplyList()
 				
 			}else if (result.retCode == 'NG')
 			{
-				alert('삭제살패!!')
+				alert('삭제 실패!!')
 			}else
 			{
 				alert('알수 없는 코드입니다.')	

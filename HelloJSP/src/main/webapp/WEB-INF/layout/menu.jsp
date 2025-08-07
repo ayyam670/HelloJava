@@ -5,7 +5,7 @@
 <!-- Sidebar-->
       <div class="border-end bg-white" id="sidebar-wrapper">
           <div align='center' class="sidebar-heading border-bottom bg-light">Start Bootstrap
-          	<div><img width = "150px" src="upload/강아지.jpg"></div>
+          	<div><img width = "200px" src="upload/강아지.jpg" style = "border-radius : 50%"></div>
           	<div align ='center'>'${empty logId ? 'guest' : logId } 님'</div>
           </div>
           <div class="list-group list-group-flush">

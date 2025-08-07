@@ -43,5 +43,13 @@ public class ReplyServiceImpl implements ReplyService{
 		
 		return false;
 	}
+
+	@Override
+	public int replyCount(int boardNo) {
+		int r = mapper.selectCount(boardNo);
+		
+			return r;
+		
+	}
 	
 }
