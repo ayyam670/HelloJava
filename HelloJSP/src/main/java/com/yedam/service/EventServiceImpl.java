@@ -12,14 +12,31 @@ public class EventServiceImpl implements EventService{
 	SqlSession sqlSession = DBUtil.getInstance().openSession();
 	EventMapper mapper = sqlSession.getMapper(EventMapper.class);
 	
+
 	@Override
-	public List<EventVO> eventList(int eventNo) {
-		return mapper.eventList(eventNo);
+	public List<EventVO> eventList() {
+		
+		return mapper.eventList();
 	}
 	
 	
 	@Override
-	public boolean removeEvent(int eventNo) {
+	public boolean insertEvent(EventVO event) {
+		int r = mapper.insertEvent(event);
+		
+		if(r > 0)
+		{
+			sqlSession.commit();
+			return true;
+		}
+		
+		return false;
+		
+		//return mapper.insertEvent(title) == 1;           // insert가 1건 성공하면 true 반환.
+	}
+	
+	@Override
+	public boolean deleteEvent(int eventNo) {
 		int r = mapper.deleteEvent(eventNo);
 		
 		if(r > 0)
@@ -27,20 +44,29 @@ public class EventServiceImpl implements EventService{
 			sqlSession.commit();
 			return true;
 		}
+		
 		return false;
+		
+		//return mapper.deleteEvent(eventNo) == 1;         // delete가 1건 성공하면 true 반환.
 	}
-	
-	
+
+
+
+
 	@Override
-	public boolean addEvent(EventVO eventTitle) {
-		int r = mapper.insertEvent(eventTitle);
+	public boolean updateEvent(EventVO event) {
+		int r = mapper.updateEvent(event);
 		
 		if(r > 0)
 		{
 			sqlSession.commit();
 			return true;
 		}
+		
 		return false;
 	}
+
+
+	
 	
 }

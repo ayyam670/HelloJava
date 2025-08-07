@@ -28,6 +28,7 @@
 		</environment>
 	</environments>
 	<mappers>
+		<!-- <package name = "com.yedam.mapper"/> 로 한번에도 가능 -->
 		<mapper resource="com/yedam/mapper/BoardMapper.xml" />
 		<mapper resource="com/yedam/mapper/MemberMapper.xml" />
 		<mapper resource="com/yedam/mapper/ReplyMapper.xml" />

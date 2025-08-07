@@ -5,7 +5,8 @@ import java.util.List;
 import com.yedam.vo.EventVO;
 
 public interface EventService {
-	List<EventVO> eventList(int eventNo);
-	boolean removeEvent(int eventNo);
-	boolean addEvent(EventVO eventTitle);
+	List<EventVO> eventList();
+	boolean insertEvent(EventVO event);             // 이벤트 내용, 등록 성공 여부를 true 또는 false 로 반환
+	boolean deleteEvent(int eventNo);            // 이벤트 번호로 이벤트 삭제
+	boolean updateEvent(EventVO event);
 }

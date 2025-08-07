@@ -4,18 +4,43 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.mapper.EventMapper">
 
-	<select id = "eventList" parameterType="int" resultType="com.yedam.vo.EventVO">
+	<select id = "eventList" resultType="com.yedam.vo.EventVO">
  		select *
  		from tbl_event
  	</select> 	
  	
  	<insert id = "insertEvent" parameterType="com.yedam.vo.EventVO">
- 		<selectKey keyProperty="eventNo" resultType ="int" order = "BEFORE">
+ 		<selectKey keyProperty="eventNo" resultType ="int" order = "BEFORE">           <!-- selectKey 란 insert 전에 시퀀스나 자동 증가 값을 미리 조회해서 그 값을 VO객체 필드에 자동으로 세팅 -->
  			select event_seq.nextval from dual
  		</selectKey>
  		
  		insert into tbl_event(event_no, title, start_date, end_date)
- 		values (#{eventNo}, #{eventTitle), #{startDate}, #{endDate})
+ 		values (#{eventNo}, #{title}, #{stDate}, #{edDate})
  	</insert>
  	
+ 	<delete id = "deleteEvent" parameterType="int">
+ 		delete from tbl_event
+ 		where event_no = #{eventNo} 	
+ 	</delete>
+ 	
+ 	<update id="updateEvent" parameterType="com.yedam.vo.EventVO">
+		update tbl_event
+		set title = #{title},
+		    start_date = #{stDate},
+		    end_date = #{edDate}
+		where event_no = #{eventNo}
+</update>
+ 	
 </mapper>
+
+
+
+
+<!-- parameterType = 입력받는 값의 타입
+int = int, integer 같은 단일 값 전달
+String = 문자열 하나 전달
+"com.yedam.vo.EventVO" = 객체 한 개를 통째로 전달
+map 또는 java.util.Map = 여러 파라미터를 map으로 묶어서 전달 -->
+
+<!-- resultType = SQL 실행 후 리턴 받는 값의 타입
+				select 구문에서 사용 -->
