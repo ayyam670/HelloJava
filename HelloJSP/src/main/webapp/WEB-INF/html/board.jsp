@@ -16,7 +16,7 @@
 <input type="hidden" value="${page }" name="page">
 
 
-<table class="table">
+<table class="table" border = "3">
   <tr>
     <th>글번호</th>
     <td><c:out value = "${board_info.boardNo }" /></td>
@@ -29,7 +29,18 @@
   </tr>
   <tr>
     <th>내용</th>
-    <td colspan='4'><c:out value = "${board_info.content }" /></td>
+    <td colspan='4'><c:out value = "${board_info.content }"/>
+    	<div align="center">
+	    	<c:choose>
+	    		<c:when test="${!empty board_info.image }">
+	    			<img width = "130px" src = 'upload/${board_info.image }'>
+	    		</c:when>
+	    		<c:otherwise>
+	    			<img src = 'https://dummyimage.com/130X130/000/2bb364.jpg&text=No+Image'>
+	    		</c:otherwise>
+	    	</c:choose>
+    	</div>
+    </td>
   </tr>
   <tr>
     <th>작성자</th>
@@ -39,19 +50,10 @@
   </tr>
   <tr>
   	<th>첨부파일명</th>
-  	<td colspan = '2'> 
+  	<td colspan = '4'> 
   		<c:out value="${board_info.image }"></c:out>
   	</td>
-  	<td rowspan = '2' align = 'center'>
-    	<c:choose>
-    		<c:when test="${!empty board_info.image }">
-    			<img width = "130px" src = 'upload/${board_info.image }'>
-    		</c:when>
-    		<c:otherwise>
-    			<img src = 'https://dummyimage.com/130X130/000/2bb364.jpg&text=No+Image'>
-    		</c:otherwise>
-    	</c:choose>
-    </td>
+  	
   </tr>
 
 
@@ -103,15 +105,15 @@
 </style>
 
 <!-- 댓글 등록. -->
-	<div class="header">
-		<input class="col-sm-8" type="text" id = "reply">
+	<div class="header" align = "center">
+		<input class="col-sm-6" type="text" id = "reply">
 		<button class="btn btn-secondary" id= "addReply">댓글등록</button>
 	
 	
 	</div>
 
 <!-- 댓글 목록. -->
-	<div class="content">
+	<div class="content" align = "center">
 		<ul>
 			<li>
 				<span class="col-sm-2">글번호</span>
@@ -124,7 +126,7 @@
 	</div>
 	
 <!-- 댓글 페이징. -->
-	<div class="footer">
+	<div class="footer" align ="center">
 		<div class="pagination">
 		  <a href="#">&laquo;</a>
 		  <a href="#">1</a>
