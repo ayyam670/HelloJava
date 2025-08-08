@@ -1,6 +1,7 @@
 package com.yedam.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yedam.vo.EventVO;
 
@@ -10,7 +11,7 @@ public interface EventMapper {
 	//eventList, insertEvent, deleteEvent
 	
 	List<EventVO> eventList();
-	int insertEvent(EventVO event);             // insert delete update 같은 쿼리 실행 시 몇 개의 행이 처리되었는지 알려주기 위해 int로 반환
+	int insertEvent(Map<String, String> map);             // insert delete update 같은 쿼리 실행 시 몇 개의 행이 처리되었는지 알려주기 위해 int로 반환
 	int deleteEvent(int eventNo);               // boolean 타입은 성공 / 실패 만 알려줌
 	int updateEvent(EventVO event);
 } 

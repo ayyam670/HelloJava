@@ -1,6 +1,7 @@
 package com.yedam.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -21,8 +22,8 @@ public class EventServiceImpl implements EventService{
 	
 	
 	@Override
-	public boolean insertEvent(EventVO event) {
-		int r = mapper.insertEvent(event);
+	public boolean insertEvent(Map<String, String> map) {
+		int r = mapper.insertEvent(map);
 		
 		if(r > 0)
 		{

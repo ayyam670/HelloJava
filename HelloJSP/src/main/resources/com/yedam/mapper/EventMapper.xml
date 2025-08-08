@@ -9,13 +9,13 @@
  		from tbl_event
  	</select> 	
  	
- 	<insert id = "insertEvent" parameterType="com.yedam.vo.EventVO">
+ 	<insert id = "insertEvent" parameterType="map">
  		<selectKey keyProperty="eventNo" resultType ="int" order = "BEFORE">           <!-- selectKey 란 insert 전에 시퀀스나 자동 증가 값을 미리 조회해서 그 값을 VO객체 필드에 자동으로 세팅 -->
  			select event_seq.nextval from dual
  		</selectKey>
  		
  		insert into tbl_event(event_no, title, start_date, end_date)
- 		values (#{eventNo}, #{title}, #{stDate}, #{edDate})
+ 		values (#{eventNo}, #{title}, #{startDate}, #{endDate})
  	</insert>
  	
  	<delete id = "deleteEvent" parameterType="int">

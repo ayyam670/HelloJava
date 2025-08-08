@@ -21,6 +21,6 @@
             		  <a class="list-group-item list-group-item-action list-group-item-light p-3" href="logout.do">로그아웃</a>
               	</c:otherwise>
               </c:choose>
-             		 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="js.do">JS연습</a>
+             		 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="calendar.do">달력 및 일정</a>
           </div>
       </div>

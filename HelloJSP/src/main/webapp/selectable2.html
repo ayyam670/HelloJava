@@ -5,21 +5,20 @@
 <script src='./dist/index.global.js'></script>
 <script>
 
-  document.addEventListener('DOMContentLoaded', function() {
-	  	    //	  let cal = document.getElementById('calendar');
-	     	//    console.log(cal);
+  document.addEventListener('DOMContentLoaded', async function() {
+	  
 	  // 값을 담을 변수 선언
 	  let eventList = [
-		{title: "test", start:"2025-08-09"}  
+		{title: "test",
+		 start:"2025-08-09"}  
 	  ];
 	  
 	  // ajax 실행 (비동기 처리)
-	  fetch('eventList.do')
-	  .then(resolve => resolve.json())
-	  .then(result =>
-	  {
-		  eventList = result;
-		  console.log(eventList);
+	  let result = await fetch('eventList.do');
+	  let data = await result.json();
+	  eventList = data;
+	  
+
 		  
 		    var calendarEl = document.getElementById('calendar');
 		    var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -32,14 +31,13 @@
 		      navLinks: true, // can click day/week names to navigate views
 		      selectable: true,
 		      selectMirror: true,
-		      select: function(arg) { 
+		      select: async function(arg) { 
 		    	  //console.log(arg); // title, startStr, endStr
 		        var title = prompt('일정을 등록하세요:');
 		        if (title) {
-		          fetch('addEvent.do?title=' + title + '&start=' + arg.startStr +'&end=' + arg.endStr)
-		        	.then(resolve => resolve.json())
-		        	.then(result =>
-		        	{
+		        	let resolve = await fetch('addEvent.do?title=' + title + '&start=' + arg.startStr +'&end=' + arg.endStr);
+		            let result = await resolve.json();
+		        	
 		        		if(result.retCode == "OK")
 	        			{
 				        	//캘린더에 일정을 추가.
@@ -56,32 +54,29 @@
        					{
        						alert('알 수 없는 예외.');
        					}
-		        	})
-		        	.catch()
+
 		        }
 		        calendar.unselect()
 		      },
-		      eventClick: function(arg)
+		      eventClick: async function(arg)
 		      {
+		    	  let resolve = await fetch('deleteEvent.do?eventNo=' + arg.event.id);
+		    	  let result = await resolve.json();
 		    	  //console.log(arg); title => arg.event.title
-		        if (confirm('해당 일정을 삭제하시겠습니까?')) {
-		    	  fetch('deleteEvent.do?eventNo=' + arg.event.id)
-		    	  	.then(resolve => resolve.json())
-		    	  	.then(result =>
-		    	  	{
+		        if (confirm('해당 일정을 삭제하시겠습니까?'))
+		        {
 		    	  		if(result.retCode == "OK")
 	    	  			{
 			        		arg.event.remove()
 	    	  			}else if(result.retCode == "NG")
         				{
-        					alert('에러가 발생.');
+        					alert('삭제 실패.');
         				}else
        					{
-       						alert('알 수 없는 예외.');
+       						alert('알 수 없는 에러코드.');
        					}
-		    	  	})
-		    	  	.catch(err => console.error(err))
-		        }
+		    	  }
+
 		      },
 		      editable: true,
 		      dayMaxEvents: true, // allow "more" link when too many events
@@ -89,8 +84,7 @@
 		    });
 		
 		    calendar.render();
-	  })
-	  .catch(err => console.error(err));
+
   });
 
 </script>

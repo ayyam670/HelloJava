@@ -11,10 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yedam.control.AddBoardControl;
+import com.yedam.control.AddEventControl;
 import com.yedam.control.AddReplyControl;
 import com.yedam.control.BoardControl;
 import com.yedam.control.BoardListControl;
+import com.yedam.control.CalendarControl;
 import com.yedam.control.ChartControl;
+import com.yedam.control.DeleteEventControl;
 import com.yedam.control.EventControl;
 import com.yedam.control.JSControl;
 import com.yedam.control.LoginControl;
@@ -76,8 +79,11 @@ public class FrontController extends HttpServlet
 		// 기타
 		map.put("/chartData.do", new ChartControl());
 		
-		// 연습
-		map.put("/eventList.do", new EventControl());
+		// 캘린더 연습
+		map.put("/eventList.do", new EventControl());   // 이벤트 목록
+		map.put("/addEvent.do", new AddEventControl()); // 이벤트 등록 . {retCode:"OK"/"NG"}
+		map.put("/calendar.do", new CalendarControl());
+		map.put("/deleteEvent.do", new DeleteEventControl());
 	}
 	
 	@Override

@@ -36,23 +36,18 @@ public class EventControl implements Control {
 		for (EventVO ev : list) {
 			Map<String, Object> map = new HashMap<>();
 			map.put("title", ev.getTitle());
-			map.put("start", ev.getStDate());
-			map.put("end", ev.getEdDate());
+			map.put("start", ev.getStartDate());
+			map.put("end", ev.getEndDate());
 			map.put("id", ev.getEventNo());
 			evList.add(map);
 		}
 		
 		
 		
-		
-		
-		
-		
-		
 		//Gson 라이브러리 활용해서 json 문자열 객체 생성
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-		String json = gson.toJson(list);         // list 객체를 json 문자열로 변환  ex) [ 
-		                                             //                              {"replyNo":1, "reply":"댓글1", "replyer":"홍길동"},
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String json = gson.toJson(evList);         // list 객체를 json 문자열로 변환  ex) [ 
+		                                             //                              {"event":1, "reply":"댓글1", "replyer":"홍길동"},
 		                                             //                              {"replyNo":2, "reply":"댓글2", "replyer":"김철수"}
 		                                             //                            ]
 		

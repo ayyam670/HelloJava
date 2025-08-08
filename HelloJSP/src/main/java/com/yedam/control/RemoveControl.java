@@ -19,7 +19,6 @@ public class RemoveControl implements Control {
 		
 		
 		
-		
 		BoardService svc = new BoardServiceImpl();
 		if(svc.removeBoard(Integer.parseInt(bno)))
 		{

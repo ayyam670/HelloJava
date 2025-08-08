@@ -9,6 +9,6 @@ public class EventVO {
 	
 	private int eventNo;
 	private String title;
-	private String stDate;
-	private String edDate;
+	private String startDate;
+	private String endDate;
 }
